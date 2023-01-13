@@ -14,6 +14,7 @@ module.exports = {
         }
         res.json(json);
     },
+
     buscarUm: async(req,res) => {
         let json = {error:'', result:{}};
 
@@ -25,5 +26,26 @@ module.exports = {
         }
 
         res.json(json);
+    },
+
+    inserir: async(req,res) => {
+        let json = {error:'', result:{}};
+
+        let modelo = req.body.modelo;
+        let placa = req.body.placa;
+
+        if(modelo && placa){
+            let CarroCodigo = await CarroService.inserir(modelo, placa);
+            json.result = {
+                codigo: CarroCodigo,
+                modelo,
+                placa
+            };
+        }else{
+            json.error = 'Campos não enviados';
+        }
+
+        res.json(json);
     }
+
 }
